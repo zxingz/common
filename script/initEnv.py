@@ -1,4 +1,5 @@
 import os
+import telegram
 
 class env():
 
@@ -22,12 +23,13 @@ class env():
                 os.makedirs(os.environ.get('DATA_BASE'))
             self.commonLogger.info('setting script logger: '+os.environ.get('LOG_BASE') + '/' + self.script + '.log')
             self.scriptLogger = self.setupLogger(os.environ.get('LOG_BASE') + '/' + self.script + '.log', self.script)
+            self.bot = telegram.Bot(token='392833384:AAHY326OuYKdXk5D6oXtlwND0bACqB87FNQ')
         except Exception as error:
             self.commonLogger.info('Error occured in common: '+str(error))
 
     def setupLogger(self, file, name):
         import logging
-        formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+        formatter = logging.Formatter('%(asctime)s %(levelname)s %(name)s %(message)s')
         handler = logging.FileHandler(file)
         handler.setFormatter(formatter)
         logger = logging.getLogger(name)
@@ -39,4 +41,4 @@ class env():
         return logger
 
     def ret(self):
-        return self.scriptLogger
+        return self.scriptLogger, self.bot
